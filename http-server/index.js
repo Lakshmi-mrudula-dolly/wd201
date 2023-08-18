@@ -1,6 +1,5 @@
 const http=require("http");
 const fs=require("fs");
-const readline=require("readline");
 let homecontent="";
 let projectcontent="";
 let registcontent="";
@@ -16,11 +15,12 @@ fs.readFile("registration.html",(err,data)=>{
     if(err) throw err;
     registcontent=data;
 });
-let rl=readline.createInterface({
-    input:process.stdin,
-    output:process.stdout,
-});
-rl.question("enter port number",(port)=>{
+const portFlagIndex = process.argv.indexOf("--port");
+
+let port = 5000;
+if (portFlagIndex !== -1 && process.argv[portFlagIndex + 1]) {
+    port = Number(process.argv[portFlagIndex + 1]);
+}
     http.createServer((request,response)=>{
         let url=request.url;
         response.writeHead(200,{"Content-Text":"text/html"});
@@ -38,5 +38,5 @@ rl.question("enter port number",(port)=>{
                         response.end();
                         break;
         }
-    }).listen(Number(port))
-});
+    }).listen(port);
+    
