@@ -1,26 +1,23 @@
 const http=require("http");
 const fs=require("fs");
+const min = require("minimist");
+const pt=min(process.argv.slice(2))
 let homecontent="";
 let projectcontent="";
 let registcontent="";
-fs.readFile("home.html",(err,data)=>{
+fs.readFile("home.html",(err,home)=>{
     if(err) throw err;
-    homecontent=data;
+    homecontent=home;
 });
-fs.readFile("project.html",(err,data)=>{
+fs.readFile("project.html",(err,project)=>{
     if(err) throw err;
-    projectcontent=data;
+    projectcontent=project;
 });
-fs.readFile("registration.html",(err,data)=>{
+fs.readFile("registration.html",(err,registration)=>{
     if(err) throw err;
-    registcontent=data;
+    registcontent=registration;
 });
-const portFlagIndex = process.argv.indexOf("--port");
 
-let port = 5000;
-if (portFlagIndex !== -1 && process.argv[portFlagIndex + 1]) {
-    port = Number(process.argv[portFlagIndex + 1]);
-}
     http.createServer((request,response)=>{
         let url=request.url;
         response.writeHead(200,{"Content-Text":"text/html"});
@@ -30,13 +27,13 @@ if (portFlagIndex !== -1 && process.argv[portFlagIndex + 1]) {
                 response.end();
                 break;
             case "/registration":
-                    response.write(registcontent);
-                    response.end();
-                    break;
+                response.write(registcontent);
+                response.end();
+                break;
              default:
-                        response.write(homecontent);
-                        response.end();
-                        break;
+                response.write(homecontent);
+                response.end();
+                break;
         }
-    }).listen(port);
+    }).listen(pt.port);
     
