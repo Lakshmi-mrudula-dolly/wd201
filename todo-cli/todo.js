@@ -13,7 +13,6 @@ const todoList = () => {
     let list3=[]
      const yesterdayDate=formattedDate(new Date(new Date().setDate(dateToday.getDate()-1)));
     all.forEach(tuple =>{
-       // console.log(tuple.dueDate)
         if(tuple.dueDate===yesterdayDate ) list3.push({title:tuple.title,dueDate:tuple.dueDate,completed:tuple.completed});
     })
     return list3;
@@ -48,10 +47,11 @@ const todoList = () => {
     const todayDate=formattedDate(new Date());
     list.forEach(tuple=>{
       let status=tuple.completed?'x':' ';
-      if(tuple.dueDate===todayDate) str+=`[${status}] ${tuple.title}`
-      else str+=`[${status}] ${tuple.title} ${tuple.dueDate}`;
-      str+='\n';
+      if(tuple.dueDate===todayDate) str+=`[${status}] ${tuple.title}\n`
+      else str+=`[${status}] ${tuple.title} ${tuple.dueDate}\n`;
+      
     });
+    str+='\n';
     return str;
   }
 
@@ -97,16 +97,16 @@ console.log("Overdue")
 var overdues = todos.overdue()
 var formattedOverdues = todos.toDisplayableList(overdues)
 console.log(formattedOverdues)
-console.log("\n")
+//console.log("\n")
 
 console.log("Due Today")
 let itemsDueToday = todos.dueToday()
 let formattedItemsDueToday = todos.toDisplayableList(itemsDueToday)
 console.log(formattedItemsDueToday)
-console.log("\n")
+//console.log("\n")
 
 console.log("Due Later")
 let itemsDueLater = todos.dueLater()
 let formattedItemsDueLater = todos.toDisplayableList(itemsDueLater)
 console.log(formattedItemsDueLater)
-console.log("\n\n")
+//console.log("\n\n")
