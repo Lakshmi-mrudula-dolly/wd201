@@ -21,7 +21,7 @@ describe("Todolist Test Suite", () => {
             dueDate: tomorrow.toISOString().slice(0,10),
             completed:false,
         });
-    expected(all.length).toBe(1);
+    expect(all.length).toBe(1);
     });
     test("Should add new todo", () => {
         const todoit = all.length;
