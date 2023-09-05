@@ -9,41 +9,28 @@ const {
     dueToday,    // Import dueToday function
     dueLater     // Import dueLater function
 } = todoList();
-
-const formattedDate = d => {
-    return d.toISOString().split("T")[0]
-  }
-  
-  var dateToday = new Date()
-  const today = formattedDate(dateToday)
-  const yesterday = formattedDate(
-    new Date(new Date().setDate(dateToday.getDate() - 1))
-  )
-  const tomorrow = formattedDate(
-    new Date(new Date().setDate(dateToday.getDate() + 1))
-  )
-
-  
+ 
 describe("Todolist Test Suite", () => {
+    beforeAll(() => {
+        const today = new Date();
+        const tomorrow = new Date(new Date().setDate(today.getDate() + 1));
+        expect(all.length)
+.toBe(0);
+        add({
+            title: "File taxes",
+            dueDate: tomorrow.toISOString().slice(0,10),
+            completed:false,
+        });
+    expected(all.length).toBe(1);
+    });
     test("Should add new todo", () => {
-        expect(all.length).toBe(0);
+        const todoit = all.length;
         add({
             title: 'Task 1',
-            dueDate: today, // Due today (not overdue)
-            completed: false
+            dueDate: new Date().toISOString().slice(0, 10), // Due today (not overdue)
+            completed: false,
         });
-        
-        add({
-            title: 'Task 2',
-            dueDate: yesterday, // Due yesterday (overdue)
-            completed: false
-        });
-        
-        add({
-            title: 'Task 3',
-            dueDate: formattedDate(new Date(new Date().setDate(new Date().getDate() + 1))), // Due tomorrow (not overdue)
-            completed: true // Completed task (should not be included)
-        });
+        expect(all.length).toBe(todoit+1);
     });
 
     test("Should mark a today as completed", () => {
@@ -53,20 +40,39 @@ describe("Todolist Test Suite", () => {
     });
 
     test("retrieval of overdue items", () => {
-
-        expect(all[1].dueDate).toBe(yesterday);
-        overdue(1);
+        const today = new Date();
+        const yesterday = new Date(new Date().setDate(today.getDate() - 1));
+        const overdueCount = overdue().length;
+        add({
+            title: "assignment",
+            dueDate: yesterday.toISOString().slice(0, 10),
+            completed: false,
+          });
+        expect(overdue().length).toBe(overdueCount+1);
     });
 
     test("retrieval of due today items", () => {
 
-        expect(all[0].dueDate).toBe(today);
-        dueToday(0);
+        const today = new Date();
+    const dueTodayCount = dueToday().length;
+    add({
+      title: "rent",
+      dueDate: today.toISOString().slice(0, 10),
+      completed: true,
+    });
+    expect(dueToday().length).toBe(dueTodayCount + 1);
     });
 
     test("retrieval of due later items", () => {
     
-        expect(all[2].dueDate).toBe(tomorrow);
-        dueLater(2);
+        const today = new Date();
+        const tomorrow = new Date(new Date().setDate(today.getDate() + 1));
+        const dueLatreCount = dueLater().length;
+        add({
+          title: "Pay bill",
+          dueDate: tomorrow.toISOString().slice(0, 10),
+          completed: false,
+        });
+        expect(dueLater().length).toBe(dueLatreCount + 1);
     });
 });
