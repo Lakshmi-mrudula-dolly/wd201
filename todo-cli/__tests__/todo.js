@@ -25,6 +25,7 @@ describe("Todolist Test Suite", () => {
     });
     test("Should add new todo", () => {
         const todoit = all.length;
+      //  expect(all.length).toBe(todoit+1);
         add({
             title: 'Task 1',
             dueDate: new Date().toISOString().slice(0, 10), // Due today (not overdue)
