@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       console.log("Due Today");
       // FILL IN HERE
       const todos = await Todo.dueToday();
-      const todoList = todos.map(todo => todo.displayableString()).join("\n");
+      const todoList = todos.map(todo => todo.displayableString1()).join("\n");
       console.log(todoList);
       console.log("\n");
       console.log("Due Later");
@@ -67,21 +67,29 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
     }
-
-    static async markAsComplete() {
-      // FILL IN HERE TO MARK AN ITEM AS COMPLETE
+    static async completed(userId){
       return this.findAll({
         where:{
           completed:false,
+          userId,
         },
-        completed:true,
       });
+    }
+    static async markAsCompleted(){
+      return this.update({completed:true});
+    }
 
+    setCompletionStatus(completed) {
+      return this.update({completed});
     }
 
     displayableString() {
       let checkbox = this.completed ? "[x]" : "[ ]";
       return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`;
+    }
+    displayableString1() {
+      let checkbox = this.completed ? "[x]" : "[ ]";
+      return `${this.id}. ${checkbox} ${this.title}`;
     }
   }
   Todo.init({
